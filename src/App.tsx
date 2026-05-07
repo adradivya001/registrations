@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import './index.css';
-import RegistrationForm from './components/RegistrationForm';
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [activeCard, setActiveCard] = useState<number | null>(null);
+  const [isGoogleFormOpen, setIsGoogleFormOpen] = useState(false);
+  const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScADJB9d7eNoQuQkWiNkvAlsoVbSEwR3QN2Ji3KAI7_gVwUqg/viewform?embedded=true";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,18 +61,26 @@ export default function App() {
     }
   ];
 
+  const openGoogleForm = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsGoogleFormOpen(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <>
       <nav id="main-nav" className={isScrolled ? 'scrolled' : ''}>
         <a className="nav-logo" href="#">
-          <img src="/janmasethu.png" alt="JanmaSethu Logo" style={{ height: '60px', width: 'auto', transform: 'scale(2.5)', transformOrigin: 'left center' }} />
+          <img src="/janmasethu.png" alt="JanmaSethu Logo" style={{ height: '90px', width: 'auto', transform: 'scale(2.8)', transformOrigin: 'left center' }} />
         </a>
         <div className="nav-right">
+          <a href="#hero" className="nav-link">Home</a>
           <a href="#how-it-works" className="nav-link">How it works</a>
-          <a href="#why-apply" className="nav-link">Why apply</a>
+          <a href="#why-apply" className="nav-link">Why Us</a>
+          <a href="#eligibility" className="nav-link">Who can apply</a>
           <a href="#faq" className="nav-link">FAQ</a>
-          <button onClick={() => setIsFormOpen(true)} className="nav-cta-btn" style={{border: 'none', cursor: 'pointer'}}>Apply Now &rarr;</button>
         </div>
+        <button onClick={openGoogleForm} className="nav-cta-btn" style={{border: 'none', cursor: 'pointer'}}>Apply Now &rarr;</button>
       </nav>
 
       <section className="hero" id="hero">
@@ -79,41 +89,31 @@ export default function App() {
         <div className="hero-blob blob-3"></div>
         <div className="hero-dots"></div>
         
-        <div className="hero-inner">
-          <div className="hero-left">
+        <div className="hero-inner" style={{gridTemplateColumns: '1fr 1fr'}}>
+          <div className="hero-left-content">
             <div className="hero-eyebrow"><i className="ti ti-certificate"></i><span>Grant Program · 2025</span></div>
-            <h1>JanmaSethu<br/><span className="italic-word">Fertility</span><br/><span className="gold-word">Grant Program</span></h1>
-            <p className="hero-desc">We are supporting 100 couples across Andhra Pradesh with fully-funded fertility treatment. No fees. No hidden costs. Just hope.</p>
-            <div className="hero-chips">
+            <h1 style={{color: 'var(--teal)', textAlign: 'left', marginBottom: '24px'}}>JanmaSethu<br/><span className="italic-word">Fertility</span><br/><span className="gold-word">Grant Program</span></h1>
+            <p className="hero-desc" style={{color: 'var(--ink-mid)', textAlign: 'left', marginBottom: '40px'}}>We are supporting 100 couples across Andhra Pradesh with fully-funded fertility treatment. No fees. No hidden costs. Just hope.</p>
+            <div className="hero-chips" style={{marginBottom: '44px'}}>
               <div className="chip"><i className="ti ti-map-pin"></i> Andhra Pradesh</div>
               <div className="chip"><i className="ti ti-calendar-event"></i> Apply before June 18</div>
               <div className="chip"><i className="ti ti-trophy"></i> Lottery on June 25</div>
             </div>
-            <div className="hero-actions">
-              <button onClick={() => setIsFormOpen(true)} className="btn-hero" style={{border: 'none', cursor: 'pointer'}}>Apply Now <i className="ti ti-arrow-right"></i></button>
-              <a href="#how-it-works" className="btn-ghost"><i className="ti ti-info-circle"></i> How it works</a>
+            <div className="hero-actions" style={{justifyContent: 'flex-start'}}>
+              <button onClick={openGoogleForm} className="btn-hero" style={{border: 'none', cursor: 'pointer'}}>Apply Now <i className="ti ti-arrow-right"></i></button>
+              <a href="#how-it-works" className="btn-ghost" style={{color: 'var(--ink)'}}>How it works</a>
             </div>
           </div>
-          <div className="hero-card">
-            <p className="hero-card-title">Program at a glance</p>
-            <div className="stat-row">
-              <div className="stat-box"><span className="stat-box-num">100</span><span className="stat-box-label">Couples Supported</span></div>
-              <div className="stat-box"><span className="stat-box-num">₹0</span><span className="stat-box-label">Application Fee</span></div>
-            </div>
-            <div className="deadline-strip">
-              <i className="ti ti-clock-hour-4"></i>
-              <div className="deadline-strip-text">
-                <p>Application Deadline</p>
-                <p>June 18, 2025</p>
-              </div>
-            </div>
-            <p className="lottery-tag"><i className="ti ti-refresh"></i> Final selection via lottery · June 25, 2025</p>
+          <div className="hero-illustration">
+            <img src="/hero_illustration.png" alt="Parenthood Journey" style={{width: '100%', height: 'auto', transform: 'scale(1.1)', transformOrigin: 'center'}} />
           </div>
         </div>
         
+
+
         <div className="hero-curve">
           <svg viewBox="0 0 1440 64" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0 64 C360 0 1080 0 1440 64 L1440 64 L0 64Z" fill="#FEFAF5"/>
+            <path d="M0 64 C360 0 1080 0 1440 64 L1440 64 L0 64Z" fill="var(--gold-wash)"/>
           </svg>
         </div>
       </section>
@@ -170,27 +170,51 @@ export default function App() {
             <h2 className="section-title">Designed with <em>dignity</em><br/>for every couple</h2>
             <p className="section-sub">We believe financial barriers should never stand between a family and their dream of parenthood.</p>
           </div>
-          <div className="why-grid">
-            <div className="why-card reveal reveal-delay-1">
+           <div className="why-grid">
+            <motion.div 
+              className={`why-card reveal reveal-delay-1 ${activeCard === 1 ? 'active' : ''}`}
+              onClick={() => setActiveCard(activeCard === 1 ? null : 1)}
+              whileHover={{ y: -5 }}
+              whileTap={{ scale: 0.98 }}
+              animate={activeCard === 1 ? { scale: 1.03, boxShadow: 'var(--shadow-pop)' } : { scale: 1 }}
+            >
               <div className="why-card-icon"><i className="ti ti-coin-off"></i></div>
               <h3>Zero Financial Burden</h3>
               <p>The entire application process is free. We never ask for deposits, processing fees, or any payments from applicants.</p>
-            </div>
-            <div className="why-card reveal reveal-delay-2">
+            </motion.div>
+            <motion.div 
+              className={`why-card reveal reveal-delay-2 ${activeCard === 2 ? 'active' : ''}`}
+              onClick={() => setActiveCard(activeCard === 2 ? null : 2)}
+              whileHover={{ y: -5 }}
+              whileTap={{ scale: 0.98 }}
+              animate={activeCard === 2 ? { scale: 1.03, boxShadow: 'var(--shadow-pop)' } : { scale: 1 }}
+            >
               <div className="why-card-icon"><i className="ti ti-scale"></i></div>
               <h3>Fair Lottery System</h3>
               <p>Every eligible applicant has an equal chance. Selection is done via a transparent, unbiased lottery — no favoritism.</p>
-            </div>
-            <div className="why-card reveal reveal-delay-3">
+            </motion.div>
+            <motion.div 
+              className={`why-card reveal reveal-delay-3 ${activeCard === 3 ? 'active' : ''}`}
+              onClick={() => setActiveCard(activeCard === 3 ? null : 3)}
+              whileHover={{ y: -5 }}
+              whileTap={{ scale: 0.98 }}
+              animate={activeCard === 3 ? { scale: 1.03, boxShadow: 'var(--shadow-pop)' } : { scale: 1 }}
+            >
               <div className="why-card-icon"><i className="ti ti-lock"></i></div>
               <h3>Private & Confidential</h3>
               <p>Your medical and financial information is handled with the utmost care. We never share your data with third parties.</p>
-            </div>
-            <div className="why-card reveal reveal-delay-4">
+            </motion.div>
+            <motion.div 
+              className={`why-card reveal reveal-delay-4 ${activeCard === 4 ? 'active' : ''}`}
+              onClick={() => setActiveCard(activeCard === 4 ? null : 4)}
+              whileHover={{ y: -5 }}
+              whileTap={{ scale: 0.98 }}
+              animate={activeCard === 4 ? { scale: 1.03, boxShadow: 'var(--shadow-pop)' } : { scale: 1 }}
+            >
               <div className="why-card-icon"><i className="ti ti-building-hospital"></i></div>
               <h3>Clinic-Direct Payments</h3>
               <p>Grant funds go straight to your treatment clinic. You never touch the money — ensuring it's used entirely for your care.</p>
-            </div>
+            </motion.div>
             <div className="why-card why-highlight reveal">
               <div className="why-highlight-icon"><i className="ti ti-shield-check"></i></div>
               <p><strong>Important safety note:</strong> JanmaSethu does not charge any fees at any stage. If anyone contacts you claiming to be from JanmaSethu and asks for money — <strong>do not pay</strong> and report it to us immediately.</p>
@@ -243,6 +267,65 @@ export default function App() {
         </div>
       </section>
 
+      {isGoogleFormOpen && (
+        <div className="google-form-full-overlay" style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: '#f5f5f5',
+          zIndex: 9999,
+          display: 'flex',
+          flexDirection: 'column',
+          animation: 'fadeIn 0.3s ease-out'
+        }}>
+          <div style={{
+            padding: '16px 40px',
+            backgroundColor: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+            zIndex: 10000
+          }}>
+            <div className="nav-logo" style={{margin: 0}}>
+              <img src="/janmasethu.png" alt="JanmaSethu Logo" style={{ height: '50px', width: 'auto' }} />
+            </div>
+            <button 
+              onClick={() => setIsGoogleFormOpen(false)}
+              style={{
+                padding: '10px 24px',
+                borderRadius: '30px',
+                border: '1px solid var(--border)',
+                background: 'white',
+                color: 'var(--ink)',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontSize: '14px',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f9f9f9'}
+              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
+            >
+              <i className="ti ti-arrow-left"></i> Back to Site
+            </button>
+          </div>
+          <div style={{ flex: 1, position: 'relative' }}>
+            <iframe
+              src={GOOGLE_FORM_URL}
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              marginHeight={0}
+              marginWidth={0}
+              style={{ border: 'none' }}>
+              Loading…
+            </iframe>
+          </div>
+        </div>
+      )}
+
       <section className="faq-section" id="faq">
         <div className="section-inner">
           <div className="reveal">
@@ -292,31 +375,17 @@ export default function App() {
             <div className="cta-dl-sep"></div>
             <div className="cta-dl-item"><strong>100</strong><span>Couples selected</span></div>
           </div>
-          <button onClick={() => setIsFormOpen(true)} className="btn-cta-main" style={{border: 'none', cursor: 'pointer'}}>Start Your Application <i className="ti ti-arrow-right"></i></button>
+          <button onClick={openGoogleForm} className="btn-cta-main" style={{border: 'none', cursor: 'pointer'}}>Start Your Application <i className="ti ti-arrow-right"></i></button>
           <p className="cta-note"><i className="ti ti-shield-check"></i> Free to apply · No fees at any stage · Secure &amp; confidential</p>
         </div>
       </section>
 
-      <footer>
-        <div className="footer-inner">
+      <footer className="footer">
+        <div className="section-inner">
           <div className="footer-top">
             <div className="footer-brand">
-              <div className="nav-logo" style={{display: 'flex', alignItems: 'center', marginBottom: '24px'}}>
-                <img src="/janmasethu.png" alt="JanmaSethu Logo" style={{ height: '70px', width: 'auto', transform: 'scale(2.2)', transformOrigin: 'left center' }} />
-              </div>
-              <p>Supporting couples across Andhra Pradesh on their journey to parenthood — through compassion, not commerce.</p>
-            </div>
-            <div className="footer-links">
-              <h4>Program</h4>
-              <a href="#how-it-works">How it Works</a>
-              <a href="#eligibility">Eligibility</a>
-              <a href="#faq">FAQ</a>
-            </div>
-            <div className="footer-links">
-              <h4>Important Dates</h4>
-              <a href="#">Applications Open Now</a>
-              <a href="#">Deadline: June 18, 2025</a>
-              <a href="#">Lottery: June 25, 2025</a>
+              <img src="/janmasethu.png" alt="JanmaSethu Logo" style={{ height: '70px', width: 'auto', transform: 'scale(1.8)', transformOrigin: 'left center' }} />
+              <p>Making the dream of parenthood accessible to everyone in Andhra Pradesh through dignity, transparency, and support.</p>
             </div>
           </div>
           <div className="footer-bottom">
@@ -326,7 +395,6 @@ export default function App() {
         </div>
       </footer>
 
-      {isFormOpen && <RegistrationForm onClose={() => setIsFormOpen(false)} />}
     </>
   );
 }
