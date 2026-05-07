@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import './index.css';
+import RegistrationForm from './components/RegistrationForm';
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [activeCard, setActiveCard] = useState<number | null>(null);
-  const [isGoogleFormOpen, setIsGoogleFormOpen] = useState(false);
-  const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScADJB9d7eNoQuQkWiNkvAlsoVbSEwR3QN2Ji3KAI7_gVwUqg/viewform?embedded=true";
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,10 +61,9 @@ export default function App() {
     }
   ];
 
-  const openGoogleForm = (e: React.MouseEvent) => {
+  const openRegistrationForm = (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsGoogleFormOpen(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsFormOpen(true);
   };
 
   return (
@@ -80,7 +79,7 @@ export default function App() {
           <a href="#eligibility" className="nav-link">Who can apply</a>
           <a href="#faq" className="nav-link">FAQ</a>
         </div>
-        <button onClick={openGoogleForm} className="nav-cta-btn" style={{border: 'none', cursor: 'pointer'}}>Apply Now &rarr;</button>
+        <button onClick={openRegistrationForm} className="nav-cta-btn" style={{border: 'none', cursor: 'pointer'}}>Apply Now &rarr;</button>
       </nav>
 
       <section className="hero" id="hero">
@@ -100,7 +99,7 @@ export default function App() {
               <div className="chip"><i className="ti ti-trophy"></i> Lottery on June 25</div>
             </div>
             <div className="hero-actions" style={{justifyContent: 'flex-start'}}>
-              <button onClick={openGoogleForm} className="btn-hero" style={{border: 'none', cursor: 'pointer'}}>Apply Now <i className="ti ti-arrow-right"></i></button>
+              <button onClick={openRegistrationForm} className="btn-hero" style={{border: 'none', cursor: 'pointer'}}>Apply Now <i className="ti ti-arrow-right"></i></button>
               <a href="#how-it-works" className="btn-ghost" style={{color: 'var(--ink)'}}>How it works</a>
             </div>
           </div>
@@ -267,63 +266,8 @@ export default function App() {
         </div>
       </section>
 
-      {isGoogleFormOpen && (
-        <div className="google-form-full-overlay" style={{
-          position: 'fixed',
-          inset: 0,
-          backgroundColor: '#f5f5f5',
-          zIndex: 9999,
-          display: 'flex',
-          flexDirection: 'column',
-          animation: 'fadeIn 0.3s ease-out'
-        }}>
-          <div style={{
-            padding: '16px 40px',
-            backgroundColor: 'white',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
-            zIndex: 10000
-          }}>
-            <div className="nav-logo" style={{margin: 0}}>
-              <img src="/janmasethu.png" alt="JanmaSethu Logo" style={{ height: '50px', width: 'auto' }} />
-            </div>
-            <button 
-              onClick={() => setIsGoogleFormOpen(false)}
-              style={{
-                padding: '10px 24px',
-                borderRadius: '30px',
-                border: '1px solid var(--border)',
-                background: 'white',
-                color: 'var(--ink)',
-                fontWeight: 600,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontSize: '14px',
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={e => e.currentTarget.style.backgroundColor = '#f9f9f9'}
-              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'white'}
-            >
-              <i className="ti ti-arrow-left"></i> Back to Site
-            </button>
-          </div>
-          <div style={{ flex: 1, position: 'relative' }}>
-            <iframe
-              src={GOOGLE_FORM_URL}
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              marginHeight={0}
-              marginWidth={0}
-              style={{ border: 'none' }}>
-              Loading…
-            </iframe>
-          </div>
-        </div>
+      {isFormOpen && (
+        <RegistrationForm onClose={() => setIsFormOpen(false)} />
       )}
 
       <section className="faq-section" id="faq">
@@ -375,7 +319,7 @@ export default function App() {
             <div className="cta-dl-sep"></div>
             <div className="cta-dl-item"><strong>100</strong><span>Couples selected</span></div>
           </div>
-          <button onClick={openGoogleForm} className="btn-cta-main" style={{border: 'none', cursor: 'pointer'}}>Start Your Application <i className="ti ti-arrow-right"></i></button>
+          <button onClick={openRegistrationForm} className="btn-cta-main" style={{border: 'none', cursor: 'pointer'}}>Start Your Application <i className="ti ti-arrow-right"></i></button>
           <p className="cta-note"><i className="ti ti-shield-check"></i> Free to apply · No fees at any stage · Secure &amp; confidential</p>
         </div>
       </section>

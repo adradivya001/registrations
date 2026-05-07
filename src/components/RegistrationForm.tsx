@@ -58,18 +58,22 @@ export default function RegistrationForm({ onClose }: RegistrationFormProps) {
       }
 
       // Upload file
+      const bucketName = import.meta.env.VITE_SUPABASE_BUCKET || 'fertility-reports';
+      console.log('Attempting upload to bucket:', bucketName);
       const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random()}.${fileExt}`;
-      const filePath = `${fileName}`;
+      const timestamp = Date.now();
+      const randomStr = Math.random().toString(36).substring(2, 8);
+      const fileName = `${timestamp}-${randomStr}.${fileExt}`;
+      const filePath = `reports/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('fertility-reports')
+        .from(bucketName)
         .upload(filePath, file);
 
       if (uploadError) throw uploadError;
 
       const { data: publicUrlData } = supabase.storage
-        .from('fertility-reports')
+        .from(bucketName)
         .getPublicUrl(filePath);
 
       const reportUrl = publicUrlData.publicUrl;
@@ -104,7 +108,8 @@ export default function RegistrationForm({ onClose }: RegistrationFormProps) {
       setSuccess(true);
     } catch (err: any) {
       console.error('Error submitting application:', err);
-      setError(err.message || 'An error occurred during submission.');
+      const bucketName = import.meta.env.VITE_SUPABASE_BUCKET || 'fertility-reports';
+      setError(`${err.message || 'An error occurred during submission.'} (Bucket: ${bucketName})`);
     } finally {
       setIsSubmitting(false);
     }
