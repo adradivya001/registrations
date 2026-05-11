@@ -18,7 +18,7 @@ export default function App() {
     // Scroll reveal
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add('visible');
+        if (e.isIntersecting) e.target.setAttribute('data-visible', 'true');
       });
     }, { threshold: 0.12 });
     
@@ -49,7 +49,7 @@ export default function App() {
     },
     {
       q: "When will I know if I've been selected?",
-      a: "The lottery takes place on June 25. If you are selected, our team will contact you directly on your registered WhatsApp number before June 25. Please ensure your number is active and correct."
+      a: "The lottery draw will be conducted on June 25. If your application is selected, our team will contact you through your registered phone number."
     },
     {
       q: "Can I apply if I've had previous fertility treatment?",
@@ -90,11 +90,11 @@ export default function App() {
         
         <div className="hero-inner" style={{gridTemplateColumns: '1fr 1fr'}}>
           <div className="hero-left-content">
-            <div className="hero-eyebrow"><i className="ti ti-certificate"></i><span>Grant Program · 2025</span></div>
+            <div className="hero-eyebrow highlight-tag"><i className="ti ti-certificate"></i><span>Grant Program · 2026</span></div>
             <h1 style={{color: 'var(--teal)', textAlign: 'left', marginBottom: '24px'}}>JanmaSethu<br/><span className="italic-word">Fertility</span><br/><span className="gold-word">Grant Program</span></h1>
-            <p className="hero-desc" style={{color: 'var(--ink-mid)', textAlign: 'left', marginBottom: '40px'}}>We are supporting 100 couples across Andhra Pradesh with fully-funded fertility treatment. No fees. No hidden costs. Just hope.</p>
+            <p className="hero-desc" style={{color: 'var(--ink-mid)', textAlign: 'left', marginBottom: '40px'}}>We are supporting 100 couples across Andhra Pradesh &amp; Telangana with fully-funded fertility treatment. No fees. No hidden costs. Just hope.</p>
             <div className="hero-chips" style={{marginBottom: '44px'}}>
-              <div className="chip"><i className="ti ti-map-pin"></i> Andhra Pradesh</div>
+              <div className="chip"><i className="ti ti-map-pin"></i> AP &amp; Telangana</div>
               <div className="chip"><i className="ti ti-calendar-event"></i> Apply before June 18</div>
               <div className="chip"><i className="ti ti-trophy"></i> Lottery on June 25</div>
             </div>
@@ -170,50 +170,38 @@ export default function App() {
             <p className="section-sub">We believe financial barriers should never stand between a family and their dream of parenthood.</p>
           </div>
            <div className="why-grid">
-            <motion.div 
+            <div 
               className={`why-card reveal reveal-delay-1 ${activeCard === 1 ? 'active' : ''}`}
               onClick={() => setActiveCard(activeCard === 1 ? null : 1)}
-              whileHover={{ y: -5 }}
-              whileTap={{ scale: 0.98 }}
-              animate={activeCard === 1 ? { scale: 1.03, boxShadow: 'var(--shadow-pop)' } : { scale: 1 }}
             >
               <div className="why-card-icon"><i className="ti ti-coin-off"></i></div>
               <h3>Zero Financial Burden</h3>
               <p>The entire application process is free. We never ask for deposits, processing fees, or any payments from applicants.</p>
-            </motion.div>
-            <motion.div 
+            </div>
+            <div 
               className={`why-card reveal reveal-delay-2 ${activeCard === 2 ? 'active' : ''}`}
               onClick={() => setActiveCard(activeCard === 2 ? null : 2)}
-              whileHover={{ y: -5 }}
-              whileTap={{ scale: 0.98 }}
-              animate={activeCard === 2 ? { scale: 1.03, boxShadow: 'var(--shadow-pop)' } : { scale: 1 }}
             >
               <div className="why-card-icon"><i className="ti ti-scale"></i></div>
               <h3>Fair Lottery System</h3>
               <p>Every eligible applicant has an equal chance. Selection is done via a transparent, unbiased lottery — no favoritism.</p>
-            </motion.div>
-            <motion.div 
+            </div>
+            <div 
               className={`why-card reveal reveal-delay-3 ${activeCard === 3 ? 'active' : ''}`}
               onClick={() => setActiveCard(activeCard === 3 ? null : 3)}
-              whileHover={{ y: -5 }}
-              whileTap={{ scale: 0.98 }}
-              animate={activeCard === 3 ? { scale: 1.03, boxShadow: 'var(--shadow-pop)' } : { scale: 1 }}
             >
               <div className="why-card-icon"><i className="ti ti-lock"></i></div>
-              <h3>Private & Confidential</h3>
+              <h3>Private &amp; Confidential</h3>
               <p>Your medical and financial information is handled with the utmost care. We never share your data with third parties.</p>
-            </motion.div>
-            <motion.div 
+            </div>
+            <div 
               className={`why-card reveal reveal-delay-4 ${activeCard === 4 ? 'active' : ''}`}
               onClick={() => setActiveCard(activeCard === 4 ? null : 4)}
-              whileHover={{ y: -5 }}
-              whileTap={{ scale: 0.98 }}
-              animate={activeCard === 4 ? { scale: 1.03, boxShadow: 'var(--shadow-pop)' } : { scale: 1 }}
             >
               <div className="why-card-icon"><i className="ti ti-building-hospital"></i></div>
               <h3>Clinic-Direct Payments</h3>
               <p>Grant funds go straight to your treatment clinic. You never touch the money — ensuring it's used entirely for your care.</p>
-            </motion.div>
+            </div>
             <div className="why-card why-highlight reveal">
               <div className="why-highlight-icon"><i className="ti ti-shield-check"></i></div>
               <p><strong>Important safety note:</strong> JanmaSethu does not charge any fees at any stage. If anyone contacts you claiming to be from JanmaSethu and asks for money — <strong>do not pay</strong> and report it to us immediately.</p>
@@ -227,29 +215,29 @@ export default function App() {
           <div className="reveal">
             <div className="section-eyebrow"><span>Eligibility</span></div>
             <h2 className="section-title">Who can <em>apply?</em></h2>
-            <p className="section-sub">This grant is for couples in Andhra Pradesh who need fertility support but face financial constraints.</p>
+            <p className="section-sub">This grant is for couples in Andhra Pradesh and Telangana who need fertility support but face financial constraints.</p>
           </div>
           <div className="eligibility-grid">
             <div className="elig-list reveal">
               <div className="elig-item">
                 <i className="ti ti-map-pin"></i>
-                <div className="elig-item-text"><strong>Andhra Pradesh Residents</strong><span>Couple must currently reside in Andhra Pradesh</span></div>
+                <div className="elig-item-text"><strong>Andhra Pradesh &amp; Telangana Residents</strong><span>Applicants must currently reside in Andhra Pradesh or Telangana and provide valid proof of residency.</span></div>
               </div>
               <div className="elig-item">
                 <i className="ti ti-user-check"></i>
-                <div className="elig-item-text"><strong>Female Partner Age 20–50</strong><span>The female partner must be between 20 and 50 years of age</span></div>
+                <div className="elig-item-text"><strong>Female Partner Age 20–50</strong><span>The female partner must be between 20 and 50 years of age.</span></div>
               </div>
               <div className="elig-item">
                 <i className="ti ti-stethoscope"></i>
-                <div className="elig-item-text"><strong>Diagnosed Fertility Condition</strong><span>Must have a fertility report or medical recommendation for IUI/IVF</span></div>
+                <div className="elig-item-text"><strong>Diagnosed Fertility Condition</strong><span>Applicants should have a confirmed fertility diagnosis or a doctor's recommendation for IUI/IVF treatment.</span></div>
               </div>
               <div className="elig-item">
                 <i className="ti ti-wallet"></i>
-                <div className="elig-item-text"><strong>Financial Need</strong><span>Priority given to couples for whom cost has delayed or prevented treatment</span></div>
+                <div className="elig-item-text"><strong>Financial Need</strong><span>Priority is given to couples facing financial challenges that have delayed treatment.</span></div>
               </div>
               <div className="elig-item">
                 <i className="ti ti-clock"></i>
-                <div className="elig-item-text"><strong>Ready to Start Treatment</strong><span>Selected couples must be prepared to begin treatment within 3 months</span></div>
+                <div className="elig-item-text"><strong>Ready to Start Treatment</strong><span>Applicants should be ready to begin treatment within the next 90 days.</span></div>
               </div>
             </div>
             <div className="elig-warning-box reveal reveal-delay-2">
@@ -324,17 +312,27 @@ export default function App() {
         </div>
       </section>
 
-      <footer className="footer">
-        <div className="section-inner">
-          <div className="footer-top">
-            <div className="footer-brand">
-              <img src="/janmasethu.png" alt="JanmaSethu Logo" style={{ height: '70px', width: 'auto', transform: 'scale(1.8)', transformOrigin: 'left center' }} />
-              <p>Making the dream of parenthood accessible to everyone in Andhra Pradesh through dignity, transparency, and support.</p>
+      <footer className="footer-new">
+        <div className="footer-inner-new">
+          <div className="footer-left">
+            <div className="footer-brand-wrap">
+              <img src="/janmasethu.png" alt="JanmaSethu Logo" style={{ height: '90px', width: 'auto', transform: 'scale(2.8)', transformOrigin: 'left center' }} />
             </div>
           </div>
-          <div className="footer-bottom">
-            <p>© 2025 JanmaSethu Fertility Grant Program · Andhra Pradesh</p>
-            <div className="footer-warn"><i className="ti ti-alert-triangle"></i> JanmaSethu never charges fees. Do not pay anyone.</div>
+          <div className="footer-center">
+            <a href="#" className="footer-link-minimal">Privacy Policy</a>
+            <a href="#" className="footer-link-minimal">Terms of Service</a>
+            <a href="#" className="footer-link-minimal">Cookies</a>
+          </div>
+          <div className="footer-right">
+            <p className="footer-copyright-minimal">© 2026 JanmaSethu Fertility Grant Program. Built for the future of care.</p>
+            <button 
+              className="scroll-top-btn" 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              aria-label="Scroll to top"
+            >
+              <i className="ti ti-chevron-up"></i>
+            </button>
           </div>
         </div>
       </footer>

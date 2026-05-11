@@ -9,6 +9,7 @@ export default function RegistrationForm({ onClose }: RegistrationFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [termsError, setTermsError] = useState(false);
 
   const [formData, setFormData] = useState({
     full_name: '',
@@ -50,6 +51,12 @@ export default function RegistrationForm({ onClose }: RegistrationFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!formData.terms_accepted) {
+      setTermsError(true);
+      return;
+    }
+    setTermsError(false);
     setIsSubmitting(true);
 
     try {
@@ -117,12 +124,10 @@ export default function RegistrationForm({ onClose }: RegistrationFormProps) {
     return (
       <div className="modal-overlay">
         <div className="modal-content success-content">
-          <div className="success-icon"><i className="ti ti-check"></i></div>
-          <h2>Application Submitted Successfully! 🎉</h2>
-          <p>Thank you for applying to the JanmaSethu Fertility Grant Program. Our team will review all applications. If shortlisted, you will be contacted before June 25.</p>
-          <div className="warning-box">
-            ⚠️ JanmaSethu does not charge any fees at any stage. Do not pay anyone claiming to be from JanmaSethu.
-          </div>
+          <div className="success-icon success-icon-green"><i className="ti ti-check"></i></div>
+          <h2>Application Submitted Successfully</h2>
+          <p className="success-thankyou">Thank you for choosing us!!</p>
+          <p>Thank you for applying to the JanmaSethu Fertility Grant Program. Our team will review all applications. If shortlisted, you will be contacted after June 25.</p>
           <button onClick={onClose} className="btn-cta-main" style={{marginTop: '24px'}}>Close</button>
         </div>
       </div>
@@ -133,7 +138,7 @@ export default function RegistrationForm({ onClose }: RegistrationFormProps) {
     <div className="modal-overlay">
       <div className="modal-content">
         <div className="modal-header">
-          <h2>Application Form 2025</h2>
+          <h2>Application Form 2026</h2>
           <button onClick={onClose} className="close-btn"><i className="ti ti-x"></i></button>
         </div>
         
@@ -282,11 +287,22 @@ export default function RegistrationForm({ onClose }: RegistrationFormProps) {
               <input type="text" name="aadhaar_number" value={formData.aadhaar_number} onChange={handleChange} />
             </div>
 
-            <div className="form-group checkbox-group">
+            <div className={`form-group checkbox-group${termsError ? ' terms-error' : ''}`}>
               <label>
-                <input type="checkbox" name="terms_accepted" required checked={formData.terms_accepted} onChange={handleChange} />
-                I agree to the Terms & Conditions and Privacy Policy and consent to my data being used for grant verification purposes. *
+                <input
+                  type="checkbox"
+                  name="terms_accepted"
+                  checked={formData.terms_accepted}
+                  onChange={(e) => {
+                    handleChange(e);
+                    if (e.target.checked) setTermsError(false);
+                  }}
+                />
+                I agree to the Terms &amp; Conditions and Privacy Policy and consent to my data being used for grant verification purposes. *
               </label>
+              {termsError && (
+                <p className="terms-error-msg">⚠️ Please agree to the Terms &amp; Conditions before submitting.</p>
+              )}
             </div>
           </div>
 
